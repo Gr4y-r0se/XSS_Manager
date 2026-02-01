@@ -1,4 +1,4 @@
-# C2
+# XSS Manager
 
 Connect and Control (C2) is a multifunctional webapp designed for Pentesters to use on engagements. 
 
